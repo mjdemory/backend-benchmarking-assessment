@@ -10,16 +10,16 @@ for an arbitrary list of strings.
 
 # Your name here, and any other people/sources who helped.
 # Give credit where credit is due.
-__author__ = "???"
+__author__ = "Michael DeMory with help from Jaspal Singh and Jordan Davidson"
 
 import sys
+from status import profile
 
 
 def alphabetize(string):
     """Returns alphabetized version of the string."""
     return "".join(sorted(string.lower()))
-
-
+@profile
 def find_anagrams(words):
     """
     Returns a dictionary with keys that are alphabetized words and values
@@ -27,18 +27,33 @@ def find_anagrams(words):
     Example:
     {'dgo': ['dog'], 'act': ['cat', 'act']}
     """
-    anagrams = {
-        alphabetize(word): [
-            w for w in words
-            if alphabetize(w) == alphabetize(word)]
-        for word in words}
+    
+    anagrams= {}
+    for w in words:
+        if "".join(sorted(w.lower())) in anagrams:
+            anagrams["".join(sorted(w.lower()))] += [w]
+        else:
+            anagrams["".join(sorted(w.lower()))] = [w]
+
     return anagrams
+
+
+
+    
+    # anagrams = {
+    #     alphabetize(word): [
+    #         w for w in words
+    #         if alphabetize(w) == alphabetize(word)]
+    #     for word in words}
+    # return anagrams
+
+
 
 
 def main(args):
     # run find_anagrams() on first argument filename
     if len(args) < 1:
-        print("Please specify a word file!")
+        #print("Please specify a word file!")
         sys.exit(1)
 
     with open(args[0]) as f:
